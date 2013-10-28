@@ -1,7 +1,14 @@
 class ShiftsController < ApplicationController
 
 	def index
-		@shifts = Shift.all
+		@users = User.all	#for form
+		@shift = Shift.new
+		if params[:shift][:user_id].nil?
+			@shifts = Shift.all
+		else
+			@shifts = Shift.where(:user_id => params[:shift][:user_id])
+		end
+		#NOTE: prefetching for username of all shifts?
 	end
 
 	def new
@@ -13,6 +20,10 @@ class ShiftsController < ApplicationController
 		if @shift.save
 			redirect_to summary_path,
 				:flash => { :notice => '#{@shift.user.name} has clocked in!' }
+		else
+			redirect_to summary_path,
+				:flash => { :alert => 'Oh noes, problem clocking in!' }
+		end
 	end
 
 	def edit
@@ -21,7 +32,13 @@ class ShiftsController < ApplicationController
 
 	def update
 		@shift = Shift.find(params[:id])
-		@shift.update_attributes(:updated_at => Time.now)
+		if @shift.update_attributes(:updated_at => Time.now)
+			redirect_to summary_path,
+				:flash => { :notice => '#{@shift.user.name} has clocked out!' }
+		else
+			redirect_to summary_path,
+				:flash => { :alert => 'Oh noes, problem clocking out!' }
+		end
 	end
 
 	# def destroy

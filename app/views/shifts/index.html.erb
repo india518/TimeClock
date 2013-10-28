@@ -1,11 +1,11 @@
 <% content_for :title do %>
-	Registration
+	Summary
 <% end %>
 
 <div class="navbar">
   <div class="navbar-inner">
     <ul class="nav pull-right">
-    	<li>Summary</li>
+    	<li><%= link_to "Summary" %></li>
       <li class="divider-vertical"></li>
       <li><%= link_to "Clock In", clock_in_url %></li>
       <li class="divider-vertical"></li>
@@ -14,7 +14,12 @@
   </div>
 </div>
 
-<!-- form here! -->
+<%= simple_form_for @shift, :url => summary_url do |f| %>
+	<%= f.input :user_id, :collection => @users, :prompt => 'Show all' %>
+	<%= f.submit %>
+<% end %>
+<!-- Note that any (or ALL!) form fields can be submitted empty! -->
+<!-- add in to/from date ranges -->
 
 <table class="table table-bordered table-condensed margin10">
 	<thead>
@@ -28,11 +33,15 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @friends.each do |friend| %>
+		<% @shifts.each do |shift| %>
 			<tr>
-				<td><%= friend.name %></td>
-				<td><%= friend.email %></td>
+				<td><%= shift.user.name %></td>
+				<td><%= shift.clock_in_date %></td>
+				<td><%= shift.clock_in_time %></td>
+				<td><%= shift.clock_out_time %></td>
+				<td><%= sprintf "%.2f", shift.time_clocked %></td>
+				<td><%= shift.note %></td>
 			</tr>
-		<% end %><!-- end @friends.each -->
+		<% end %>
 	</tbody>
 </table>

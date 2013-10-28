@@ -1,5 +1,6 @@
 TimeClock::Application.routes.draw do
   get '/summary', :to => 'shifts#index'
+  post '/summary', :to => 'shifts#index'
   
   get '/clock_in', :to => 'shifts#new'
   post '/clock_in', :to => 'shifts#create'
