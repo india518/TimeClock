@@ -15,11 +15,19 @@
 </div>
 
 <%= simple_form_for @shift, :url => summary_url do |f| %>
-	<%= f.input :user_id, :collection => @users, :prompt => 'Show all' %>
-	<%= f.submit %>
+	<%= f.input :user_id, :collection => @users, :prompt => 'Show all', :wrapper_html => { :class => 'pull-left side_margin5' } %>
+	<div class="pull-left side_margin5">
+		<label for="visit_date">From Date:</label>
+		<input type="date" id="from_date" name="shift[from_date]" />
+	</div>
+	<div class="pull-left side_margin5">
+		<label for="visit_date">To Date:</label>
+		<input type="date" id="to_date" name="shift[to_date]" />
+	</div>
+	<div class="clearfix"></div>
+	<%= f.submit 'Search!', :class => 'btn side_margin5', :label => "" %>
 <% end %>
 <!-- Note that any (or ALL!) form fields can be submitted empty! -->
-<!-- add in to/from date ranges -->
 
 <table class="table table-bordered table-condensed margin10">
 	<thead>
@@ -39,7 +47,8 @@
 				<td><%= shift.clock_in_date %></td>
 				<td><%= shift.clock_in_time %></td>
 				<td><%= shift.clock_out_time %></td>
-				<td><%= sprintf "%.2f", shift.time_clocked %></td>
+				<td><%= shift.time_clocked ? (sprintf "%.2f", shift.time_clocked)
+																		: nil %></td>
 				<td><%= shift.note %></td>
 			</tr>
 		<% end %>

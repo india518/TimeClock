@@ -3,10 +3,66 @@ class ShiftsController < ApplicationController
 	def index
 		@users = User.all	#for form
 		@shift = Shift.new
-		if params[:shift][:user_id].nil?
-			@shifts = Shift.all
+
+		#The rest of this is messy. IT's TERRIBLE, UGH!
+		#Get this working and then refactor into a helper function!
+
+		#for the first time we load the page:
+		if params[:shift].nil?
+			@shifts = Shift.all 
 		else
-			@shifts = Shift.where(:user_id => params[:shift][:user_id])
+			if params[:shift][:user_id].empty? || params[:shift][:user_id].nil?
+
+				#check if date fields are emtpy
+				if params[:shift][:from_date].empty? || params[:shift][:from_date].nil?
+
+					if params[:shift][:to_date].empty? || params[:shift][:to_date].nil?
+						#all fields are empty
+						@shifts = Shift.all
+					else
+						#only params[:shift][:to_date] is set
+						@shifts = Shift.where("created_at <= ?", params[:shift][:to_date].to_date.end_of_day)
+					end
+
+				else
+
+					if params[:shift][:to_date].empty? || params[:shift][:to_date].nil?
+						#only params[:shift][:from_date] is set
+						@shifts = Shift.where("created_at >= ?", params[:shift][:from_date].to_date.beginning_of_day)
+					else
+						#both params[:shift][:from_date] AND [:to_date] are set!!
+						#but not params[:shift][:user_id]
+						@shifts = Shift.where(:created_at => (params[:shift][:from_date].to_date.beginning_of_day)..(params[:shift][:to_date].to_date.end_of_day))
+					end
+
+				end
+
+			else
+
+				#check if date fields are emtpy
+				if params[:shift][:from_date].empty? || params[:shift][:from_date].nil?
+
+					if params[:shift][:to_date].empty? || params[:shift][:to_date].nil?
+						#only params[:shift][:user_id] is set
+						@shifts = Shift.where(:user_id => params[:shift][:user_id])
+					else
+						#only params[:shift][:user_id] and params[:shift][:to_date] is set
+						@shifts = Shift.where("user_id = ? AND created_at <= ?", params[:shift][:user_id], params[:shift][:to_date].to_date.end_of_day)
+					end
+
+				else
+
+					if params[:shift][:to_date].empty? || params[:shift][:to_date].nil?
+						#only params[:shift][:user_id] and params[:shift][:from_date] is set
+						@shifts = Shift.where("user_id = ? AND created_at >= ?", params[:shift][:user_id], params[:shift][:from_date].to_date.beginning_of_day)
+					else
+						#EVERYTHING IS SET!
+						@shifts = Shift.where(:created_at => (params[:shift][:from_date].to_date.beginning_of_day)..(params[:shift][:to_date].to_date.end_of_day), :user_id => params[:shift][:user_id])
+					end
+
+				end
+
+			end
 		end
 		#NOTE: prefetching for username of all shifts?
 	end

@@ -39,7 +39,7 @@ class Shift < ActiveRecord::Base
   end
 
   def time_clocked
-  	return "0" if self.is_in_progress?
+  	return nil if self.is_in_progress?
   	(self.updated_at - self.created_at)/3600 #convert from seconds to hours
   	#Note to self, for table in view:
   	# sprintf "%.2f", 1.0393477 #=> "1.04"
