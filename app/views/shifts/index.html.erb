@@ -15,7 +15,10 @@
 </div>
 
 <%= simple_form_for @shift, :url => summary_url do |f| %>
-	<%= f.input :user_id, :collection => @users, :prompt => 'Show all', :wrapper_html => { :class => 'pull-left side_margin5' } %>
+	<%= f.input :user_id,
+							:collection => @users,
+							:prompt => 'Show all',
+							:wrapper_html => { :class => 'pull-left side_margin5' } %>
 	<div class="pull-left side_margin5">
 		<label for="visit_date">From Date:</label>
 		<input type="date" id="from_date" name="shift[from_date]" />
@@ -25,7 +28,7 @@
 		<input type="date" id="to_date" name="shift[to_date]" />
 	</div>
 	<div class="clearfix"></div>
-	<%= f.submit 'Search!', :class => 'btn side_margin5', :label => "" %>
+	<%= f.submit 'Search!', :class => 'btn side_margin5' %>
 <% end %>
 <!-- Note that any (or ALL!) form fields can be submitted empty! -->
 
