@@ -1,6 +1,8 @@
 class Shift < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
+  belongs_to :user
+
   #what kind of validations are useful here?
 
   #note that 'created_at' is the time the user clocks in...
