@@ -13,10 +13,14 @@
 </div>
 
 <div id="select_user_form" class="side_margin5">
-	<%= simple_form_for @shift, :url => clock_path do |f| %>
+	<%= simple_form_for @user,
+				:url => clock_path,
+				:method => :post do |f| %>
+		<%# we always post this form, never want to 'put' since we're not updating! %>
 		<h4>Step 1: Choose Your Name</h4>
-		<%= f.input :user_id,
+		<%= f.input :id,
 								:collection => @users,
+								:label => false,
 								:prompt => false %>
 		<%= f.submit 'Update', :class => 'btn' %>
 	<% end %>
