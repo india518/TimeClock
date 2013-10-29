@@ -19,11 +19,11 @@
 							:wrapper_html => { :class => 'pull-left side_margin5' } %>
 	<div class="pull-left side_margin5">
 		<label for="visit_date">From Date:</label>
-		<input type="date" id="from_date" name="shift[from_date]" />
+		<input type="date" id="from_date" name="shift[from_date]" value="<%= (DateTime.now - DateTime.now.wday).to_date %>"/>
 	</div>
 	<div class="pull-left side_margin5">
 		<label for="visit_date">To Date:</label>
-		<input type="date" id="to_date" name="shift[to_date]" />
+		<input type="date" id="to_date" name="shift[to_date]" value="<%= (DateTime.now + (6 - DateTime.now.wday)).to_date %>"/>
 	</div>
 	<div class="clearfix"></div>
 	<%= f.submit 'Search!', :class => 'btn side_margin5' %>
