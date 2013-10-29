@@ -32,6 +32,7 @@
 				<%= f.input :user_id,
 										:as => :hidden,
 										:input_html => { :value => @user.id } %>
+				<%= f.input :note %>
 				<%= f.submit 'Clock In', :class => 'btn' %>
 			<% end %>
 		<% else %>
