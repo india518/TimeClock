@@ -1,0 +1,46 @@
+<% content_for :title do %>
+	Clock In
+<% end %>
+
+<div class="navbar">
+  <div class="navbar-inner">
+    <ul class="nav pull-right">
+    	<li><%= link_to "Summary", summary_url %></li>
+      <li class="divider-vertical"></li>
+      <li><%= link_to "Clock In/Out", clock_url %></li>
+    </ul>
+  </div>
+</div>
+
+<div id="select_user_form" class="side_margin5">
+	<%= simple_form_for @shift, :url => clock_path do |f| %>
+		<h4>Step 1: Choose Your Name</h4>
+		<%= f.input :user_id,
+								:collection => @users,
+								:prompt => false %>
+		<%= f.submit 'Update', :class => 'btn' %>
+	<% end %>
+</div>
+
+<% unless @check_shift.nil? %>
+	<div id="clock_form" class="side_margin5">
+		<h4>Step 2: Clock In or Out</h4>
+		<h5>Date: <%= Date.today %></h5>
+		<h5>Time now: <%= Time.now.strftime("%I:%M %p") %>
+		<% if @check_shift.empty? %>
+			<%= simple_form_for @shift, :url => clock_in_url do |f| %>
+				<%= f.input :user_id,
+										:as => :hidden,
+										:input_html => { :value => @user.id } %>
+				<%= f.submit 'Clock In', :class => 'btn' %>
+			<% end %>
+		<% else %>
+			<%= simple_form_for @shift, :url => clock_out_url do |f| %>
+				<%= f.input :id,
+										:as => :hidden,
+										:input_html => { :value => @check_shift.first.id } %>
+				<%= f.submit 'Clock Out', :class => 'btn' %>
+			<% end %>
+		<% end %>
+	</div>
+<% end %>

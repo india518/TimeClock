@@ -67,30 +67,35 @@ class ShiftsController < ApplicationController
 		#NOTE: prefetching for username of all shifts?
 	end
 
-	def new
+	def show
+		@users = User.all	#for form
 		@shift = Shift.new
+		unless params[:shift].nil? || params[:shift].empty?
+			#find out if this is an existing shift or a new shift!
+			#We'll use @check_shift to figure out:
+			# - How to display the form
+			# - Where to send the form (create or update?)
+			@user = User.find(params[:shift][:user_id])
+			@check_shift = Shift.where("created_at == updated_at AND user_id = ?", @user)
+		end
 	end
 
 	def create
-		@shift = User.find(params[:user_id]).shifts.new(shift_params)
+		@shift = User.find(params[:shift][:user_id]).shifts.new(shift_params)
 		if @shift.save
 			redirect_to summary_path,
-				:flash => { :notice => '#{@shift.user.name} has clocked in!' }
+				:flash => { :notice => "#{@shift.user.name} has clocked in!" }
 		else
 			redirect_to summary_path,
 				:flash => { :alert => 'Oh noes, problem clocking in!' }
 		end
 	end
 
-	def edit
-		@shift = Shift.find(params[:id])
-	end
-
 	def update
-		@shift = Shift.find(params[:id])
+		@shift = Shift.find(params[:shift][:id])
 		if @shift.update_attributes(:updated_at => Time.now)
 			redirect_to summary_path,
-				:flash => { :notice => '#{@shift.user.name} has clocked out!' }
+				:flash => { :notice => "#{@shift.user.name} has clocked out!" }
 		else
 			redirect_to summary_path,
 				:flash => { :alert => 'Oh noes, problem clocking out!' }
