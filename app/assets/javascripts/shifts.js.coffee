@@ -4,3 +4,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+$(document).ready ->
+  $("#new_user").on("ajax:success", (e, data, status, xhr) ->
+    $("#new_post").append "<p>success</p>"
+  ).bind "ajax:error", (e, xhr, status, error) ->
+    $("#new_user").append "<p>ERROR</p>"

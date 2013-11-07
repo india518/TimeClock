@@ -1,0 +1,2 @@
+/* pass the shifts found into a template and overwrite the table in the '#shift_table' div */
+$("#shift_table").html('<%= escape_javascript(render :template => "shifts/templates/find_shifts.html.erb", :formats  => [:html], :locals   => {:shifts => @shifts }) %>');

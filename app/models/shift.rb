@@ -44,4 +44,5 @@ class Shift < ActiveRecord::Base
   	#Note to self, for table in view:
   	# sprintf "%.2f", 1.0393477 #=> "1.04"
   end
+
 end

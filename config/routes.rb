@@ -9,4 +9,5 @@ TimeClock::Application.routes.draw do
   #resources :shifts, :only => [:destroy]	#needed?
   
   root :to => 'shifts#index'
+  match '/shift/find_shifts' => 'shifts#find_shifts', :as => 'shift_search', :via => [:post]
 end
