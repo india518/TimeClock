@@ -1,0 +1,23 @@
+<% unless @check_shift.nil? %>
+	<div id="clock_form" class="side_margin5">
+		<h4>Step 2: Clock In or Out</h4>
+		<h5>Date: <%= Date.today %></h5>
+		<h5>Time now: <%= Time.now.strftime("%I:%M %p") %>
+		<% if @check_shift.empty? %>
+			<%= simple_form_for @shift, :url => clock_in_url do |f| %>
+				<%= f.input :user_id,
+										:as => :hidden,
+										:input_html => { :value => @user.id } %>
+				<%= f.input :note %>
+				<%= f.submit 'Clock In', :class => 'btn' %>
+			<% end %>
+		<% else %>
+			<%= simple_form_for @shift, :url => clock_out_url do |f| %>
+				<%= f.input :id,
+										:as => :hidden,
+										:input_html => { :value => @check_shift.first.id } %>
+				<%= f.submit 'Clock Out', :class => 'btn' %>
+			<% end %>
+		<% end %>
+	</div>
+<% end %>

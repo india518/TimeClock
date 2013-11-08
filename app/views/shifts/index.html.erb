@@ -3,26 +3,25 @@
 <% end %>
 
 <% content_for :jquery do %>
-    <script>
-        $(document).ready(function(){
-            /* TODO: change this to automatically submit the form
-               when any input fields change */
-            $("input").change(function(){
-                $(this).parents("form").submit();
-            });
-        });
-    </script>
-<% end %>       
-
+	<script>
+		$(document).ready(function(){
+			/* TODO: change this to automatically submit the form
+					when any input fields change */
+			$("input").change(function(){
+				$(this).parents("form").submit();
+			});
+		});
+	</script>
+<% end %>    
 
 <div class="navbar">
-  <div class="navbar-inner">
-    <ul class="nav pull-right">
-    	<li><%= link_to "Summary", summary_url %></li>
-      <li class="divider-vertical"></li>
-      <li><%= link_to "Clock In/Out", clock_url %></li>
-    </ul>
-  </div>
+	<div class="navbar-inner">
+		<ul class="nav pull-right">
+			<li><%= link_to "Summary", summary_url %></li>
+			<li class="divider-vertical"></li>
+			<li><%= link_to "Clock In/Out", clock_url %></li>
+		</ul>
+	</div>
 </div>
 
 <%= simple_form_for @shift, :url => shift_search_url, :remote => true do |f| %>

@@ -52,16 +52,17 @@ class ShiftsController < ApplicationController
 	def show
 		@users = User.all	#for form
 		@shift = Shift.new
-		if params[:user].nil? || params[:user].empty?
-			@user = User.new
-		else
-			#find out if this is an existing shift or a new shift!
-			#We'll use @check_shift to figure out:
-			# - How to display the form
-			# - Where to send the form (create or update?)
-			@user = User.find(params[:user][:id])
-			@check_shift = Shift.where("created_at == updated_at AND user_id = ?", @user)
-		end
+		@user = User.new
+	end
+
+	def show_clock
+		@user = User.find(params[:user][:id])
+		@shift = Shift.new
+		#find out if this is an existing shift or a new shift!
+		#We'll use @check_shift to figure out:
+		# - How to display the form
+		# - Where to send the form (create or update?)
+		@check_shift = Shift.where("created_at == updated_at AND user_id = ?", @user)
 	end
 
 	def create

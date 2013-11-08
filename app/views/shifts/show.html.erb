@@ -3,18 +3,19 @@
 <% end %>
 
 <div class="navbar">
-  <div class="navbar-inner">
-    <ul class="nav pull-right">
-    	<li><%= link_to "Summary", summary_url %></li>
-      <li class="divider-vertical"></li>
-      <li><%= link_to "Clock In/Out", clock_url %></li>
-    </ul>
-  </div>
+	<div class="navbar-inner">
+		<ul class="nav pull-right">
+			<li><%= link_to "Summary", summary_url %></li>
+			<li class="divider-vertical"></li>
+			<li><%= link_to "Clock In/Out", clock_url %></li>
+		</ul>
+	</div>
 </div>
 
 <div id="select_user_form" class="side_margin5">
 	<%= simple_form_for @user,
-				:url => clock_path,
+				:url => shift_clock_url,
+				:remote => true,
 				:method => :post do |f| %>
 		<%# we always post this form, never want to 'put' since we're not updating! %>
 		<h4>Step 1: Choose Your Name</h4>
@@ -26,26 +27,5 @@
 	<% end %>
 </div>
 
-<% unless @check_shift.nil? %>
-	<div id="clock_form" class="side_margin5">
-		<h4>Step 2: Clock In or Out</h4>
-		<h5>Date: <%= Date.today %></h5>
-		<h5>Time now: <%= Time.now.strftime("%I:%M %p") %>
-		<% if @check_shift.empty? %>
-			<%= simple_form_for @shift, :url => clock_in_url do |f| %>
-				<%= f.input :user_id,
-										:as => :hidden,
-										:input_html => { :value => @user.id } %>
-				<%= f.input :note %>
-				<%= f.submit 'Clock In', :class => 'btn' %>
-			<% end %>
-		<% else %>
-			<%= simple_form_for @shift, :url => clock_out_url do |f| %>
-				<%= f.input :id,
-										:as => :hidden,
-										:input_html => { :value => @check_shift.first.id } %>
-				<%= f.submit 'Clock Out', :class => 'btn' %>
-			<% end %>
-		<% end %>
-	</div>
-<% end %>
+<div id="clock_form">
+</div>

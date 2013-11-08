@@ -10,4 +10,5 @@ TimeClock::Application.routes.draw do
   
   root :to => 'shifts#index'
   match '/shift/find_shifts' => 'shifts#find_shifts', :as => 'shift_search', :via => [:post]
+  match '/shift/show_clock' => 'shifts#show_clock', :as => 'shift_clock', :via => [:post]
 end
