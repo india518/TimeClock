@@ -1,2 +1,6 @@
 /* pass the current shift (or a new shift) into a template and attach to the page after the form */
-$("#clock_form").html('<%= escape_javascript(render :template => "shifts/templates/show_clock.html.erb", :formats => [:html], :locals => {:check_shift => @check_shift, :user => @user }) %>');
+$("#clock_form").html('<%= escape_javascript(
+	render 	:template => "shifts/templates/show_clock.html.erb", 
+			:formats => [:html], 
+			:locals => {:check_shift => @check_shift, :user => @user}
+) %>');
