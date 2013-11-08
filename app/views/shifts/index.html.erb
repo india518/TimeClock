@@ -5,9 +5,7 @@
 <% content_for :jquery do %>
 	<script>
 		$(document).ready(function(){
-			/* TODO: change this to automatically submit the form
-					when any input fields change */
-			$("input").change(function(){
+			$("select, input").change(function(){
 				$(this).parents("form").submit();
 			});
 		});

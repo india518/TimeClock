@@ -12,6 +12,16 @@
 	</div>
 </div>
 
+<% content_for :jquery do %>
+	<script>
+		$(document).ready(function(){
+			$("select").change(function(){
+				$(this).parents("form").submit();
+			});
+		});
+	</script>
+<% end %> 
+
 <div id="select_user_form" class="side_margin5">
 	<%= simple_form_for @user,
 				:url => shift_clock_url,
@@ -22,7 +32,7 @@
 		<%= f.input :id,
 								:collection => @users,
 								:label => false,
-								:prompt => false %>
+								:prompt => 'Select Name' %>
 		<%= f.submit 'Update', :class => 'btn' %>
 	<% end %>
 </div>
